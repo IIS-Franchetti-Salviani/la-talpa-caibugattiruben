@@ -1,0 +1,52 @@
+---
+config:
+  layout: elk
+---
+classDiagram
+direction TB
+    class Classifica {
+	    +Classifica()
+	    +salvaClassifica(g:Giocatore)
+    }
+
+    class Interfaccia {
+	    +Interfaccia()
+	    +cambioImmagineBuca()
+	    +impostoGrafica()
+	    +colpitoTalpa()
+    }
+
+    class GestoreGioco {
+	    -tempo:localTime
+	    -difficoltà:int
+	    -punteggioAttuale:int
+	    +gestoreGioco(t:localTime,p:int,dif:int)
+    }
+
+    class Buca {
+	    +Buca()
+	    +colpitoBuca() boolean
+    }
+
+    class Talpa {
+	    -tempoEsterno:localTime
+	    -frequenzaUscite:double
+	    -valore:int
+	    +Talpa(tEst:int,fUSc:double,val:int)
+	    +esci()
+	    +rientra()
+	    +schiacciata() boolean
+    }
+
+    class Giocatore {
+	    -punteggio:int
+	    -nome:String
+	    +Giocatore(p:int,n:String)
+    }
+
+    Buca "9" --o "1" Interfaccia
+    Giocatore "0..n" --o "1" Classifica
+    Talpa "1" -- "1" GestoreGioco
+    GestoreGioco "1" -- "1" Interfaccia
+    Talpa .. Buca
+    GestoreGioco -- Classifica
