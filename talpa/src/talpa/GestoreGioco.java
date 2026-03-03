@@ -4,7 +4,9 @@
  */
 package talpa;
 
-import java.util.ArrayList;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  *
@@ -12,18 +14,26 @@ import java.util.ArrayList;
  */
 public class GestoreGioco {
     private int punteggioAttuale=0;
-    ArrayList<Buco> buchi=new ArrayList();
+    Buco[] buchi=new Buco[9];
     private Talpa talpa;
+    ImageIcon iconaTalpa=new ImageIcon("talpa.png");
     
-    public GestoreGioco(){
+    public GestoreGioco(JPanel panel) {
+
+        
+        for(int i=0; i<9; i++){
+            buchi[i] = new Buco();
+            panel.add(buchi[i]);
+        }
+
+        talpa = new Talpa(buchi, iconaTalpa, 400, 1700);
+        Thread t = new Thread(talpa);
+        t.start();
+        
         
     }
     
-    public void creoBuchi(){
-        for(int i=0;i<9;i++){
-            buchi.add(new Buco());
-        }
-    }
+  
    
     
 }

@@ -6,6 +6,8 @@ package talpa;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridLayout;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -15,7 +17,7 @@ import javax.swing.JPanel;
 public class Interfaccia extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Interfaccia.class.getName());
-
+    GestoreGioco g;
     /**
      * Creates new form Interfaccia
      */
@@ -23,17 +25,16 @@ public class Interfaccia extends javax.swing.JFrame {
         initComponents();
         this.setSize(1000, 800);
         this.setLayout(new BorderLayout());
+
+        JPanel panelGriglia = new JPanel();
+        panelGriglia.setBackground(Color.GREEN);
+        panelGriglia.setLayout(new GridLayout(3,3,15,15));
+        this.add(panelGriglia, BorderLayout.CENTER);
+
+        g = new GestoreGioco(panelGriglia);
+        
         
 
-        JPanel panel = new JPanel();
-        panel.setBackground(Color.GREEN);
-        panel.setLayout(new BorderLayout());
-        this.add(panel);
-
-        Buco b = new Buco();
-        b.creoAction();
-
-        panel.add(b, BorderLayout.SOUTH);
 
         this.setVisible(true);
     }

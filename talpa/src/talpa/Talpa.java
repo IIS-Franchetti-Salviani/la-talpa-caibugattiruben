@@ -35,20 +35,22 @@ public class Talpa extends JButton implements Runnable{
         while(true) {
 
             try {
+                
                 int attesa = tempoMinAttesa + random.nextInt(tempoMaxAttesa - tempoMinAttesa + 1);
                 Thread.sleep(attesa);
 
                 int i = random.nextInt(buche.length);
                 Buco b = buche[i];
-
+                b.add(this);
+                b.setTalpa(this);
                 b.getTalpa().setVisible(true);
                 b.setEnabled(false);
 
-                Thread.sleep(1000);
+                Thread.sleep(3000);
 
                 b.getTalpa().setVisible(false);
                 b.setEnabled(true);
-
+                b.remove(this);
             } 
             catch (InterruptedException e) {}
         }

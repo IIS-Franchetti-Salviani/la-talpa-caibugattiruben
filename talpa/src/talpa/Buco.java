@@ -15,17 +15,17 @@ import javax.swing.JButton;
 public class Buco extends JButton {
     boolean presenzaTalpa;
     private Talpa talpa;
+    GestoreGioco g;
     
-    public void creoAction(){
+    public Buco(){
         this.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(presenzaTalpa==false){
-                    System.out.println("ciao");
-                }
+               
             }
         });
     }
+    
     
     public void setTalpa(Talpa t) {
         this.talpa = t;
@@ -35,11 +35,5 @@ public class Buco extends JButton {
         return talpa;
     }
     
-    public void disattivoTasto(){
-        this.setEnabled(false);
-    }
-    
-    public void attivoTasto(){
-        this.setEnabled(true);
-    }
+
 }
