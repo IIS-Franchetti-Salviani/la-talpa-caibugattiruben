@@ -14,6 +14,7 @@ import javax.swing.JButton;
  */
 public class Buco extends JButton {
     boolean presenzaTalpa;
+    private Talpa talpa;
     
     public void creoAction(){
         this.addActionListener(new ActionListener() {
@@ -24,5 +25,21 @@ public class Buco extends JButton {
                 }
             }
         });
+    }
+    
+    public void setTalpa(Talpa t) {
+        this.talpa = t;
+    }
+
+    public Talpa getTalpa() {
+        return talpa;
+    }
+    
+    public void disattivoTasto(){
+        this.setEnabled(false);
+    }
+    
+    public void attivoTasto(){
+        this.setEnabled(true);
     }
 }

@@ -13,6 +13,11 @@ import java.util.ArrayList;
 public class GestoreGioco {
     private int punteggioAttuale=0;
     ArrayList<Buco> buchi=new ArrayList();
+    private Talpa talpa;
+    
+    public GestoreGioco(){
+        
+    }
     
     public void creoBuchi(){
         for(int i=0;i<9;i++){

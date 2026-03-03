@@ -4,10 +4,53 @@
  */
 package talpa;
 
+import java.util.Random;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+
 /**
  *
  * @author caibugatti.ruben
  */
-public class Talpa {
+public class Talpa extends JButton implements Runnable{
+    private Buco[] buche;      
+    private Random random = new Random();
     
+    private int tempoMinAttesa;   
+    private int tempoMaxAttesa;
+    
+    public Talpa(Buco[] buche, ImageIcon icona, int tempoMinAttesa, int tempoMaxAttesa) {
+        super(icona);
+        this.buche = buche;
+        this.tempoMinAttesa = tempoMinAttesa;
+        this.tempoMaxAttesa = tempoMaxAttesa;
+        this.setVisible(false);
+        this.setFocusable(false);
+
+        this.addActionListener(e -> this.setVisible(false));
+    }
+    
+    @Override
+    public void run() {
+        while(true) {
+
+            try {
+                int attesa = tempoMinAttesa + random.nextInt(tempoMaxAttesa - tempoMinAttesa + 1);
+                Thread.sleep(attesa);
+
+                int i = random.nextInt(buche.length);
+                Buco b = buche[i];
+
+                b.getTalpa().setVisible(true);
+                b.setEnabled(false);
+
+                Thread.sleep(1000);
+
+                b.getTalpa().setVisible(false);
+                b.setEnabled(true);
+
+            } 
+            catch (InterruptedException e) {}
+        }
+    }
 }
