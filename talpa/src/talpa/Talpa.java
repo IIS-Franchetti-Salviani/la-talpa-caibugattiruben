@@ -41,6 +41,12 @@ public class Talpa extends JButton implements Runnable{
 
                 int i = random.nextInt(buche.length);
                 Buco b = buche[i];
+                
+                this.setContentAreaFilled(false);
+                this.setBorderPainted(false);
+                this.setFocusPainted(false);
+                this.setOpaque(false);
+                
                 b.add(this);
                 b.setTalpa(this);
                 b.getTalpa().setVisible(true);
