@@ -19,13 +19,20 @@ public class GestoreGioco {
     ImageIcon iconaTalpa=new ImageIcon("talpa.png");
     
     public GestoreGioco(JPanel panel) {
-
+        JLabel punti=new JLabel("0");
+        JLabel vuoto=new JLabel("");
+        JLabel tempo=new JLabel("0");
+        panel.add(punti);
+        panel.add(vuoto);
+        panel.add(tempo);
         
         for(int i=0; i<9; i++){
             buchi[i] = new Buco();
             panel.add(buchi[i]);
         }
-
+        
+        
+        
         talpa = new Talpa(buchi, iconaTalpa, 400, 1700);
         Thread t = new Thread(talpa);
         t.start();

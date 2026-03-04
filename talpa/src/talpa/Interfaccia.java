@@ -28,7 +28,7 @@ public class Interfaccia extends javax.swing.JFrame {
 
         JPanel panelGriglia = new JPanel();
         panelGriglia.setBackground(Color.GREEN);
-        panelGriglia.setLayout(new GridLayout(3,3,15,15));
+        panelGriglia.setLayout(new GridLayout(4,3,15,15));
         this.add(panelGriglia, BorderLayout.CENTER);
 
         g = new GestoreGioco(panelGriglia);
