@@ -4,6 +4,7 @@
  */
 package talpa;
 
+import java.awt.GridLayout;
 import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -47,6 +48,7 @@ public class Talpa extends JButton implements Runnable{
                 this.setFocusPainted(false);
                 this.setOpaque(false);
                 
+                b.setLayout(new GridLayout());
                 b.add(this);
                 b.setTalpa(this);
                 b.getTalpa().setVisible(true);

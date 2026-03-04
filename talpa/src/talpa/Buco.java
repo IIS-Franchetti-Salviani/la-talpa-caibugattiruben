@@ -6,6 +6,7 @@ package talpa;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 /**
@@ -17,13 +18,18 @@ public class Buco extends JButton {
     private Talpa talpa;
     GestoreGioco g;
     
-    public Buco(){
+    public Buco(ImageIcon icona){
+        super(icona);
         this.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                
             }
         });
+        this.setContentAreaFilled(false);
+        this.setBorderPainted(false);
+        this.setFocusPainted(false);
+        this.setOpaque(false);
     }
     
     
