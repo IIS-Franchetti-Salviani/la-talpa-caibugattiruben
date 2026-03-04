@@ -32,7 +32,7 @@ public class GestoreGioco {
             panel.add(buchi[i]);
         }
         
-        talpa = new Talpa(buchi, iconaTalpa, 400, 1700);
+        talpa = new Talpa(buchi, iconaTalpa, 100, 300);
         Thread t = new Thread(talpa);
         t.start();
         

@@ -26,6 +26,7 @@ public class Buco extends JButton {
                
             }
         });
+        
         this.setContentAreaFilled(false);
         this.setBorderPainted(false);
         this.setFocusPainted(false);

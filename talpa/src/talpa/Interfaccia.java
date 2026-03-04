@@ -34,10 +34,7 @@ public class Interfaccia extends javax.swing.JFrame {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
         g = new GestoreGioco(panelGriglia);
-        
-        
-
-
+       
         this.setVisible(true);
     }
 

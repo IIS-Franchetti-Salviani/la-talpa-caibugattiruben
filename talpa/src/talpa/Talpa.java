@@ -4,7 +4,7 @@
  */
 package talpa;
 
-import java.awt.GridLayout;
+import java.awt.BorderLayout;
 import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,6 +28,11 @@ public class Talpa extends JButton implements Runnable{
         this.setVisible(false);
         this.setFocusable(false);
 
+        this.setContentAreaFilled(false);
+        this.setBorderPainted(false);
+        this.setFocusPainted(false);
+        this.setOpaque(false);
+                
         this.addActionListener(e -> this.setVisible(false));
     }
     
@@ -43,21 +48,14 @@ public class Talpa extends JButton implements Runnable{
                 int i = random.nextInt(buche.length);
                 Buco b = buche[i];
                 
-                this.setContentAreaFilled(false);
-                this.setBorderPainted(false);
-                this.setFocusPainted(false);
-                this.setOpaque(false);
-                
-                b.setLayout(new GridLayout());
+                b.setLayout(new BorderLayout());
                 b.add(this);
                 b.setTalpa(this);
                 b.getTalpa().setVisible(true);
-                b.setEnabled(false);
 
-                Thread.sleep(3000);
+                Thread.sleep(1000);
 
                 b.getTalpa().setVisible(false);
-                b.setEnabled(true);
                 b.remove(this);
             } 
             catch (InterruptedException e) {}
