@@ -6,7 +6,10 @@ package talpa;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 /**
@@ -25,14 +28,21 @@ public class Interfaccia extends javax.swing.JFrame {
 
         this.setLayout(new BorderLayout());
 
-        JPanel panelGriglia = new JPanel();
-        panelGriglia.setBackground(Color.GREEN);
-        panelGriglia.setLayout(new GridLayout(4,4,15,15));
-        this.add(panelGriglia, BorderLayout.CENTER);
+        JPanel panel = new JPanel() {
+            Image imgSfondo = new ImageIcon("sfondoErba.png").getImage();
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(imgSfondo, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+        panel.setBackground(Color.GREEN);
+        panel.setLayout(new GridLayout(4,4,15,15));
+        this.add(panel, BorderLayout.CENTER);
         
 
         
-        g = new GestoreGioco(panelGriglia);
+        g = new GestoreGioco(panel);
        
         this.setVisible(true);
     }

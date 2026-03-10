@@ -4,12 +4,17 @@
  */
 package talpa;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 /**
@@ -30,15 +35,45 @@ public class GestoreGioco {
         JLabel tempo=new JLabel("");
         int k = 0;
         
-        //creo le buche
+        //creo form
         for (int r = 0; r < 4; r++) {
             for (int c = 0; c < 4; c++) {
 
                 if (r == 0 && c == 0) {
-                    panel.add(tempo);
+                    JPanel tempoP=new JPanel() {
+                        Image imgSfondo = new ImageIcon("cassetta.png").getImage();
+                        @Override
+                        protected void paintComponent(Graphics g) {
+                            super.paintComponent(g);
+                            g.drawImage(imgSfondo, 0, 0, getWidth(), getHeight(), this);
+                        }
+                    };
+                    tempoP.setOpaque(false);
+                    tempoP.setLayout(new GridLayout(1,1,20,20));
+                    tempoP.add(tempo);
+                    tempo.setHorizontalAlignment(SwingConstants.CENTER);
+                    tempo.setVerticalAlignment(SwingConstants.CENTER);
+                    tempo.setForeground(Color.WHITE);
+                    tempo.setFont(new Font("Arial", Font.BOLD, 30));
+                    panel.add(tempoP);
                 } 
                 else if (r == 1 && c == 0) {
-                    panel.add(punti);
+                    JPanel puntiP=new JPanel() {
+                        Image imgSfondo = new ImageIcon("cassetta.png").getImage();
+                        @Override
+                        protected void paintComponent(Graphics g) {
+                            super.paintComponent(g);
+                            g.drawImage(imgSfondo, 0, 0, getWidth(), getHeight(), this);
+                        }
+                    };
+                    puntiP.setOpaque(false);
+                    puntiP.setLayout(new GridLayout(1,1,20,20));
+                    puntiP.add(punti);
+                    punti.setHorizontalAlignment(SwingConstants.CENTER);
+                    punti.setVerticalAlignment(SwingConstants.CENTER);                
+                    punti.setForeground(Color.WHITE);
+                    punti.setFont(new Font("Arial", Font.BOLD, 30));
+                    panel.add(puntiP);
                 } 
                 else if (r >= 1 && c >= 1) {
                     buchi[k] = new Buco(null){
