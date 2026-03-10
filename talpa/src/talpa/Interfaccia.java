@@ -7,7 +7,6 @@ package talpa;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
@@ -23,15 +22,15 @@ public class Interfaccia extends javax.swing.JFrame {
      */
     public Interfaccia() {
         initComponents();
-        this.setSize(1000, 800);
+
         this.setLayout(new BorderLayout());
 
         JPanel panelGriglia = new JPanel();
         panelGriglia.setBackground(Color.GREEN);
-        panelGriglia.setLayout(new GridLayout(4,3,15,15));
+        panelGriglia.setLayout(new GridLayout(4,4,15,15));
         this.add(panelGriglia, BorderLayout.CENTER);
         
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
         
         g = new GestoreGioco(panelGriglia);
        

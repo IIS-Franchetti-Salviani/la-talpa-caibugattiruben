@@ -16,7 +16,6 @@ import javax.swing.JButton;
 public class Buco extends JButton {
     boolean presenzaTalpa;
     private Talpa talpa;
-    GestoreGioco g;
     
     public Buco(ImageIcon icona){
         super(icona);
