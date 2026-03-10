@@ -6,13 +6,18 @@ package talpa;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Insets;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 /**
@@ -31,45 +36,48 @@ public class FormAvvio extends javax.swing.JFrame {
     public FormAvvio(GestoreGioco g, Classifica c) {
         initComponents();
         
-        this.g=g;
+        this.g = g;
         this.c = c;
-        
-        JPanel panel = new JPanel() {
-            Image imgSfondo = new ImageIcon("sfondoIniziale.png").getImage();
+
+        JPanel mainPanel = new JPanel(new GridBagLayout()) {
+            Image sfondo = new ImageIcon("sfondoIniziale.png").getImage();
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.drawImage(imgSfondo, 0, 0, getWidth(), getHeight(), this);
+                g.drawImage(sfondo, 0, 0, getWidth(), getHeight(), this);
             }
         };
-        
-        panel.setLayout(new BorderLayout());
-        setContentPane(panel);
 
         JTextArea classificaArea = new JTextArea();
         classificaArea.setEditable(false);
-        classificaArea.setFont(new Font("Arial", Font.BOLD, 24));
         classificaArea.setOpaque(false);
         classificaArea.setForeground(Color.WHITE);
-
+        classificaArea.setFont(new Font("Arial", Font.BOLD, 18));
         aggiornaClassifica(classificaArea);
 
-        JScrollPane scroll = new JScrollPane(classificaArea);
-        scroll.setOpaque(false);
-        scroll.getViewport().setOpaque(false);
-        panel.add(scroll, BorderLayout.CENTER);
-
         JButton avviaButton = new JButton("Avvia");
-        avviaButton.setFont(new Font("Arial", Font.BOLD, 30));
+        avviaButton.setFont(new Font("Arial", Font.BOLD, 24));
         avviaButton.addActionListener(e -> {
             this.dispose();
             g.avviaGioco();
         });
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setOpaque(false);
-        buttonPanel.add(avviaButton);
-        panel.add(buttonPanel, BorderLayout.SOUTH);
 
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+        gbc.anchor = GridBagConstraints.CENTER;
+        mainPanel.add(avviaButton, gbc);
+
+        gbc.anchor = GridBagConstraints.SOUTHEAST;
+        gbc.insets = new Insets(0, 0, 20, 20);
+        mainPanel.add(classificaArea, gbc);
+
+        setContentPane(mainPanel);
+        setSize(600, 400);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
     }
 

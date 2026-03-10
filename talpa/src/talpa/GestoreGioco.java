@@ -34,23 +34,23 @@ public class GestoreGioco {
     private ImageIcon iconaTalpa = new ImageIcon("talpa.png");
     private ImageIcon iconaBuco = new ImageIcon("buco.png");
     private Classifica c;
+    Interfaccia i;
+    FormAvvio f;
 
     public GestoreGioco(Classifica c) {
         this.c = c;
         punti = new JLabel("");
         tempo = new JLabel("");
     }
-    
-    public void avvia(){
-        FormAvvio a=new FormAvvio(this,c);
-        a.setVisible(true);
+
+    public void avvia() {
+        f=new FormAvvio(this, c);
     }
+
     public void preparaPannello(JPanel panel) {
         int k = 0;
-
         for (int r = 0; r < 4; r++) {
             for (int col = 0; col < 4; col++) {
-
                 if (r == 0 && col == 0) {
                     panel.add(creaPannelloConLabel(tempo));
                 } else if (r == 1 && col == 0) {
@@ -62,10 +62,8 @@ public class GestoreGioco {
                 } else {
                     panel.add(new JLabel(""));
                 }
-
             }
         }
-
         talpa = creaTalpa();
     }
 
@@ -115,11 +113,13 @@ public class GestoreGioco {
     }
 
     public void avviaGioco() {
+        i= new Interfaccia(this, c);
         punti.setText("0");
         t = new Timer(1000, e -> aggiornaTempo());
         t.start();
         threadTalpa = new Thread(talpa);
         threadTalpa.start();
+        
     }
 
     private void aggiornaTempo() {
@@ -133,6 +133,8 @@ public class GestoreGioco {
             } else {
                 JOptionPane.showMessageDialog(null, "Non sei in top 10");
             }
+            i.dispose();
+            System.exit(0);
         } else {
             scorriTempo(tempo, tempoSec);
             tempoSec--;
@@ -142,11 +144,10 @@ public class GestoreGioco {
     private void scorriTempo(JLabel tempoLabel, int t) {
         tempoLabel.setText(String.valueOf(t));
     }
-    
+
     public synchronized void aggiungiPunto(int v) {
-        punteggioAttuale=punteggioAttuale+v;
+        punteggioAttuale += v;
         punti.setText(String.valueOf(punteggioAttuale));
     }
-   
-    
+
 }

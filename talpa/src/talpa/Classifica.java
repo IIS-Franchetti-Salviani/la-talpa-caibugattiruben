@@ -60,6 +60,7 @@ public class Classifica {
     }
       
     public boolean isInTop10(int punteggio) {
+        lista.clear();
         leggoClassifica();
         lista.sort((a, b) -> b.punti - a.punti);
         int numeroGiocatori = lista.size();

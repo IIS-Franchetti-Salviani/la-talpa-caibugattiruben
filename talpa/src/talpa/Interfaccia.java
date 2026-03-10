@@ -5,7 +5,6 @@
 package talpa;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -19,14 +18,19 @@ import javax.swing.JPanel;
 public class Interfaccia extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Interfaccia.class.getName());
-    GestoreGioco g;
+
+    private GestoreGioco g;
+    private Classifica c;
     /**
      * Creates new form Interfaccia
      */
-    public Interfaccia() {
+    public Interfaccia(GestoreGioco g, Classifica c) {
         initComponents();
-        
-        this.setLayout(new BorderLayout());
+                
+        this.g = g;
+        this.c = c;
+
+        setLayout(new BorderLayout());
 
         JPanel panel = new JPanel() {
             Image imgSfondo = new ImageIcon("sfondoErba.png").getImage();
@@ -36,18 +40,17 @@ public class Interfaccia extends javax.swing.JFrame {
                 g.drawImage(imgSfondo, 0, 0, getWidth(), getHeight(), this);
             }
         };
-        panel.setBackground(Color.GREEN);
         panel.setLayout(new GridLayout(4,4,15,15));
-        this.add(panel, BorderLayout.CENTER);
-        
-        g = new GestoreGioco(null);
+        add(panel, BorderLayout.CENTER);
 
         g.preparaPannello(panel);
-        
-        
-       
-        this.setVisible(true);
+
+        setSize(800, 600);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setVisible(true);
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
