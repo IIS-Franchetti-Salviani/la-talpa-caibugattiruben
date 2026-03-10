@@ -70,7 +70,9 @@ public class Talpa extends JButton implements Runnable{
                 b.getTalpa().setVisible(false);
                 b.remove(this);
             } 
-            catch (InterruptedException e) {}
+            catch (InterruptedException e) {
+                 Thread.currentThread().interrupt();
+            }
         }
     }
 }

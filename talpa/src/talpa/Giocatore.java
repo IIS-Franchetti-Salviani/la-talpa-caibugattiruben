@@ -9,5 +9,11 @@ package talpa;
  * @author caibugatti.ruben
  */
 public class Giocatore {
-    
+    String nome;
+    int punti;
+
+    public Giocatore(String nome, int punti) {
+        this.nome = nome;
+        this.punti = punti;
+    }
 }

@@ -13,6 +13,7 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
@@ -28,8 +29,10 @@ public class GestoreGioco {
     ImageIcon iconaTalpa=new ImageIcon("talpa.png");
     ImageIcon iconaBuco=new ImageIcon("buco.png");
     Timer t;
-    private int tempoSec=60;
+    private int tempoSec=10;
     JLabel punti, tempo;
+    private Thread threadTalpa;
+    Classifica c=new Classifica();
     
     public GestoreGioco(JPanel panel) {
         punti=new JLabel("");
@@ -116,8 +119,17 @@ public class GestoreGioco {
                     };
         
         t= new Timer(1000, e -> {
-            if(tempoSec==0){
+            if(tempoSec==-1){
                 t.stop();
+                threadTalpa.interrupt();
+                JOptionPane.showMessageDialog(null, "Il tempo è finito!!!!!!");
+                if(c.isInTop10(punteggioAttuale) ==true){
+                    String nome = JOptionPane.showInputDialog(null, "Inserisci il tuo nome:");
+                    c.gestioneNuovoEntrato(nome, punteggioAttuale);
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Non sei in top 10");
+                }
             }
             else{
                 scorriTempo(tempo,tempoSec);
@@ -128,8 +140,8 @@ public class GestoreGioco {
         punti.setText("0");
         t.start();
         
-        Thread tread = new Thread(talpa);
-        tread.start();
+        threadTalpa = new Thread(talpa);
+        threadTalpa.start();
     }
     
     public void scorriTempo(JLabel tempo,int t){
