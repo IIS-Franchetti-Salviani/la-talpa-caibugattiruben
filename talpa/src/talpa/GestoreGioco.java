@@ -29,10 +29,11 @@ public class GestoreGioco {
     ImageIcon iconaBuco=new ImageIcon("buco.png");
     Timer t;
     private int tempoSec=60;
+    JLabel punti, tempo;
     
     public GestoreGioco(JPanel panel) {
-        JLabel punti=new JLabel("");
-        JLabel tempo=new JLabel("");
+        punti=new JLabel("");
+        tempo=new JLabel("");
         int k = 0;
         
         //creo form
@@ -76,7 +77,7 @@ public class GestoreGioco {
                     panel.add(puntiP);
                 } 
                 else if (r >= 1 && c >= 1) {
-                    buchi[k] = new Buco(null){
+                    buchi[k] = new Buco(this){
                         @Override
                         protected void paintComponent(Graphics g) {
                             super.paintComponent(g); 
@@ -100,7 +101,7 @@ public class GestoreGioco {
         }
                 
         //creo la talpa
-        talpa = new Talpa(buchi, null, 100, 300){
+        talpa = new Talpa(buchi, null, 100, 300,this){
                         @Override
                         protected void paintComponent(Graphics g) {
                             super.paintComponent(g); 
@@ -135,7 +136,10 @@ public class GestoreGioco {
         tempo.setText(String.valueOf(t));
     }
     
-  
+    public synchronized void aggiungiPunto(int v) {
+        punteggioAttuale=punteggioAttuale+v;
+        punti.setText(String.valueOf(punteggioAttuale));
+    }
    
     
 }

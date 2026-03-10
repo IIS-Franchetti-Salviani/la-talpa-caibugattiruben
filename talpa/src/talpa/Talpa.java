@@ -5,6 +5,8 @@
 package talpa;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,7 +22,9 @@ public class Talpa extends JButton implements Runnable{
     private int tempoMinAttesa;   
     private int tempoMaxAttesa;
     
-    public Talpa(Buco[] buche, ImageIcon icona, int tempoMinAttesa, int tempoMaxAttesa) {
+    GestoreGioco g;
+    
+    public Talpa(Buco[] buche, ImageIcon icona, int tempoMinAttesa, int tempoMaxAttesa,GestoreGioco g) {
         super(icona);
         this.buche = buche;
         this.tempoMinAttesa = tempoMinAttesa;
@@ -33,7 +37,15 @@ public class Talpa extends JButton implements Runnable{
         this.setFocusPainted(false);
         this.setOpaque(false);
                 
-        this.addActionListener(e -> this.setVisible(false));
+        this.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                g.aggiungiPunto(+1);
+                setVisible(false);
+            }
+        });
+        
+        this.g=g;
     }
     
     @Override
