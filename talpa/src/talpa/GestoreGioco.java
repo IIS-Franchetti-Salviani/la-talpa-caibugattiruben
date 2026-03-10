@@ -26,7 +26,7 @@ public class GestoreGioco {
     private int tempoSec=60;
     
     public GestoreGioco(JPanel panel) {
-        JLabel punti=new JLabel("0");
+        JLabel punti=new JLabel("");
         JLabel tempo=new JLabel("");
         int k = 0;
         
@@ -63,9 +63,7 @@ public class GestoreGioco {
 
             }
         }
-        Thread tread = new Thread(talpa);
-        tread.start();
-        
+                
         //creo la talpa
         talpa = new Talpa(buchi, null, 100, 300){
                         @Override
@@ -91,7 +89,11 @@ public class GestoreGioco {
             }
             
         });
+        punti.setText("0");
         t.start();
+        
+        Thread tread = new Thread(talpa);
+        tread.start();
     }
     
     public void scorriTempo(JLabel tempo,int t){
