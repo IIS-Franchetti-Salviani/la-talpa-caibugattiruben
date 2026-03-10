@@ -23,129 +23,124 @@ import javax.swing.Timer;
  * @author caibugatti.ruben
  */
 public class GestoreGioco {
-    private int punteggioAttuale=0;
-    Buco[] buchi=new Buco[9];
+    private JLabel punti;
+    private JLabel tempo;
+    private Buco[] buchi = new Buco[9];
     private Talpa talpa;
-    ImageIcon iconaTalpa=new ImageIcon("talpa.png");
-    ImageIcon iconaBuco=new ImageIcon("buco.png");
-    Timer t;
-    private int tempoSec=10;
-    JLabel punti, tempo;
     private Thread threadTalpa;
-    Classifica c=new Classifica();
+    private Timer t;
+    private int tempoSec = 60;
+    private int punteggioAttuale = 0;
+    private ImageIcon iconaTalpa = new ImageIcon("talpa.png");
+    private ImageIcon iconaBuco = new ImageIcon("buco.png");
+    private Classifica c;
+
+    public GestoreGioco(Classifica c) {
+        this.c = c;
+        punti = new JLabel("");
+        tempo = new JLabel("");
+    }
     
-    public GestoreGioco(JPanel panel) {
-        punti=new JLabel("");
-        tempo=new JLabel("");
+    public void avvia(){
+        FormAvvio a=new FormAvvio(this,c);
+        a.setVisible(true);
+    }
+    public void preparaPannello(JPanel panel) {
         int k = 0;
-        
-        //creo form
+
         for (int r = 0; r < 4; r++) {
-            for (int c = 0; c < 4; c++) {
+            for (int col = 0; col < 4; col++) {
 
-                if (r == 0 && c == 0) {
-                    JPanel tempoP=new JPanel() {
-                        Image imgSfondo = new ImageIcon("cassetta.png").getImage();
-                        @Override
-                        protected void paintComponent(Graphics g) {
-                            super.paintComponent(g);
-                            g.drawImage(imgSfondo, 0, 0, getWidth(), getHeight(), this);
-                        }
-                    };
-                    tempoP.setOpaque(false);
-                    tempoP.setLayout(new GridLayout(1,1,20,20));
-                    tempoP.add(tempo);
-                    tempo.setHorizontalAlignment(SwingConstants.CENTER);
-                    tempo.setVerticalAlignment(SwingConstants.CENTER);
-                    tempo.setForeground(Color.WHITE);
-                    tempo.setFont(new Font("Arial", Font.BOLD, 30));
-                    panel.add(tempoP);
-                } 
-                else if (r == 1 && c == 0) {
-                    JPanel puntiP=new JPanel() {
-                        Image imgSfondo = new ImageIcon("cassetta.png").getImage();
-                        @Override
-                        protected void paintComponent(Graphics g) {
-                            super.paintComponent(g);
-                            g.drawImage(imgSfondo, 0, 0, getWidth(), getHeight(), this);
-                        }
-                    };
-                    puntiP.setOpaque(false);
-                    puntiP.setLayout(new GridLayout(1,1,20,20));
-                    puntiP.add(punti);
-                    punti.setHorizontalAlignment(SwingConstants.CENTER);
-                    punti.setVerticalAlignment(SwingConstants.CENTER);                
-                    punti.setForeground(Color.WHITE);
-                    punti.setFont(new Font("Arial", Font.BOLD, 30));
-                    panel.add(puntiP);
-                } 
-                else if (r >= 1 && c >= 1) {
-                    buchi[k] = new Buco(this){
-                        @Override
-                        protected void paintComponent(Graphics g) {
-                            super.paintComponent(g); 
-                            Graphics2D g2d = (Graphics2D) g.create();
-
-                            g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-
-                            g2d.drawImage(iconaBuco.getImage(), 0, 0, getWidth(), getHeight(), this);
-
-                            g2d.dispose();
-                        }
-                    };
+                if (r == 0 && col == 0) {
+                    panel.add(creaPannelloConLabel(tempo));
+                } else if (r == 1 && col == 0) {
+                    panel.add(creaPannelloConLabel(punti));
+                } else if (r >= 1 && col >= 1) {
+                    buchi[k] = creaBuco();
                     panel.add(buchi[k]);
                     k++;
-                } 
-                else {
+                } else {
                     panel.add(new JLabel(""));
                 }
 
             }
         }
-                
-        //creo la talpa
-        talpa = new Talpa(buchi, null, 100, 300,this){
-                        @Override
-                        protected void paintComponent(Graphics g) {
-                            super.paintComponent(g); 
-                            Graphics2D g2d = (Graphics2D) g.create();
 
-                            g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        talpa = creaTalpa();
+    }
 
-                            g2d.drawImage(iconaTalpa.getImage(), 0, 0, getWidth(), getHeight(), this);
-
-                            g2d.dispose();
-                        }
-                    };
-        
-        t= new Timer(1000, e -> {
-            if(tempoSec==-1){
-                t.stop();
-                threadTalpa.interrupt();
-                JOptionPane.showMessageDialog(null, "Il tempo è finito!!!!!!");
-                if(c.isInTop10(punteggioAttuale) ==true){
-                    String nome = JOptionPane.showInputDialog(null, "Inserisci il tuo nome:");
-                    c.gestioneNuovoEntrato(nome, punteggioAttuale);
-                }
-                else{
-                    JOptionPane.showMessageDialog(null, "Non sei in top 10");
-                }
+    private JPanel creaPannelloConLabel(JLabel label) {
+        JPanel p = new JPanel() {
+            Image imgSfondo = new ImageIcon("cassetta.png").getImage();
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(imgSfondo, 0, 0, getWidth(), getHeight(), this);
             }
-            else{
-                scorriTempo(tempo,tempoSec);
-                tempoSec=tempoSec-1;
+        };
+        p.setOpaque(false);
+        p.setLayout(new GridLayout(1, 1, 20, 20));
+        p.add(label);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setVerticalAlignment(SwingConstants.CENTER);
+        label.setForeground(Color.WHITE);
+        label.setFont(new Font("Arial", Font.BOLD, 30));
+        return p;
+    }
+
+    private Buco creaBuco() {
+        return new Buco(this) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g.create();
+                g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+                g2d.drawImage(iconaBuco.getImage(), 0, 0, getWidth(), getHeight(), this);
+                g2d.dispose();
             }
-            
-        });
+        };
+    }
+
+    private Talpa creaTalpa() {
+        return new Talpa(buchi, null, 100, 300, this) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g.create();
+                g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+                g2d.drawImage(iconaTalpa.getImage(), 0, 0, getWidth(), getHeight(), this);
+                g2d.dispose();
+            }
+        };
+    }
+
+    public void avviaGioco() {
         punti.setText("0");
+        t = new Timer(1000, e -> aggiornaTempo());
         t.start();
-        
         threadTalpa = new Thread(talpa);
         threadTalpa.start();
     }
-    
-    public void scorriTempo(JLabel tempo,int t){
-        tempo.setText(String.valueOf(t));
+
+    private void aggiornaTempo() {
+        if (tempoSec == -1) {
+            t.stop();
+            threadTalpa.interrupt();
+            JOptionPane.showMessageDialog(null, "Il tempo è finito!!!!!!");
+            if (c.isInTop10(punteggioAttuale)) {
+                String nome = JOptionPane.showInputDialog(null, "Inserisci il tuo nome:");
+                c.gestioneNuovoEntrato(nome, punteggioAttuale);
+            } else {
+                JOptionPane.showMessageDialog(null, "Non sei in top 10");
+            }
+        } else {
+            scorriTempo(tempo, tempoSec);
+            tempoSec--;
+        }
+    }
+
+    private void scorriTempo(JLabel tempoLabel, int t) {
+        tempoLabel.setText(String.valueOf(t));
     }
     
     public synchronized void aggiungiPunto(int v) {

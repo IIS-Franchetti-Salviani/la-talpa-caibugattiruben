@@ -6,47 +6,71 @@ package talpa;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 /**
  *
- * @author caibugatti.ruben
+ * @author ruben
  */
-public class Interfaccia extends javax.swing.JFrame {
+public class FormAvvio extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Interfaccia.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormAvvio.class.getName());
+    
     GestoreGioco g;
+    Classifica c;
     /**
-     * Creates new form Interfaccia
+     * Creates new form FormAvvio
      */
-    public Interfaccia() {
+    public FormAvvio(GestoreGioco g, Classifica c) {
         initComponents();
         
-        this.setLayout(new BorderLayout());
-
+        this.g=g;
+        this.c = c;
+        
         JPanel panel = new JPanel() {
-            Image imgSfondo = new ImageIcon("sfondoErba.png").getImage();
+            Image imgSfondo = new ImageIcon("sfondoIniziale.png").getImage();
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 g.drawImage(imgSfondo, 0, 0, getWidth(), getHeight(), this);
             }
         };
-        panel.setBackground(Color.GREEN);
-        panel.setLayout(new GridLayout(4,4,15,15));
-        this.add(panel, BorderLayout.CENTER);
         
-        g = new GestoreGioco(null);
+        panel.setLayout(new BorderLayout());
+        setContentPane(panel);
 
-        g.preparaPannello(panel);
-        
-        
-       
-        this.setVisible(true);
+        JTextArea classificaArea = new JTextArea();
+        classificaArea.setEditable(false);
+        classificaArea.setFont(new Font("Arial", Font.BOLD, 24));
+        classificaArea.setOpaque(false);
+        classificaArea.setForeground(Color.WHITE);
+
+        aggiornaClassifica(classificaArea);
+
+        JScrollPane scroll = new JScrollPane(classificaArea);
+        scroll.setOpaque(false);
+        scroll.getViewport().setOpaque(false);
+        panel.add(scroll, BorderLayout.CENTER);
+
+        JButton avviaButton = new JButton("Avvia");
+        avviaButton.setFont(new Font("Arial", Font.BOLD, 30));
+        avviaButton.addActionListener(e -> {
+            this.dispose();
+            g.avviaGioco();
+        });
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setOpaque(false);
+        buttonPanel.add(avviaButton);
+        panel.add(buttonPanel, BorderLayout.SOUTH);
+
+        setVisible(true);
     }
 
     /**
@@ -58,34 +82,29 @@ public class Interfaccia extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(102, 255, 102));
-
-        jPanel1.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(183, 183, 183)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(586, Short.MAX_VALUE))
+            .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(98, 98, 98)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(369, Short.MAX_VALUE))
+            .addGap(0, 300, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    /**
+    private void aggiornaClassifica(JTextArea area) {
+        c.leggoClassifica();
+        area.setText("");
+        for (int i = 0; i < c.lista.size(); i++) {
+            Giocatore g = c.lista.get(i);
+            area.setText(area.getText() + (i+1) + ". " + g.nome + " - " + g.punti + "\n");
+        }
+    }    /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -111,6 +130,5 @@ public class Interfaccia extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
